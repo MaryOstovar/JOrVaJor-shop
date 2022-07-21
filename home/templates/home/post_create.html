@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% block content %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="section-1-container section-container">
+            <div class="container">
+                <div class="row mb-3 ">
+                    <label class="col-sm-2 col-form-label">category</label>
+                    <div class="col-sm-3">
+                        <label>
+                            {{ form.category}}
+                        </label>
+
+                    </div>
+                </div>
+                <div class="row mb-3 ">
+                    <label class="col-sm-2 col-form-label">name</label>
+                    <div class="col-sm-3">
+                        <label>
+                            {{ form.name }}
+                        </label>
+
+                    </div>
+                </div>
+                <div class="row mb-3 ">
+                    <label class="col-sm-2 col-form-label"> description</label>
+                    <div class="col-sm-3">
+                        <label>
+                            {{ form.description }}
+                        </label>
+
+                    </div>
+                </div>
+                <div class="row mb-3 ">
+                    <label class="col-sm-2 col-form-label">price</label>
+                    <div class="col-sm-3">
+                        <label>
+                            {{ form.price }}
+                        </label>
+
+                    </div>
+                </div>
+                <div class="row mb-3 ">
+                    <label class="col-sm-2 col-form-label">image</label>
+                    <div class="col-sm-3">
+                        <label>
+                            {{ form.image }}
+                        </label>
+
+                    </div>
+                </div>
+                <br>
+                <input type="submit" class='btn btn-primary' value="Create" ></button>
+            </div>
+        </div>
+
+    </form>
+{% endblock %}
