@@ -15,10 +15,13 @@ class HomeView(View):
             raise 'error occurred'
         return render(request, 'home/home.html', {'products': products})
 
+
 class MyPostsView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        products = Product.objects.filter(pk=pk)
+        products = Product.objects.filter(user=request.user)
         return render(request, 'home/my_posts.html', {'products': products})
+
+
 class AboutView(View):
     def get(self, request):
         return render(request, 'home/about.html')
@@ -31,7 +34,7 @@ class PostCreateView(LoginRequiredMixin, View):
         return render(request, 'home/post_create.html', {'form': self.form_class()})
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             new_post = form.save(commit=False)
             cd = form.cleaned_data

@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from ckeditor.fields import RichTextField
-
 from accounts.models import User
 
 
@@ -24,10 +23,11 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    user = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='image/')
     description = RichTextField()
     price = models.IntegerField()
     available = models.BooleanField(default=True)
