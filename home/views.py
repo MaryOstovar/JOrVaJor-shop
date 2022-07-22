@@ -45,3 +45,8 @@ class PostCreateView(LoginRequiredMixin, View):
             return redirect('home:home')
         messages.error(request, 'your data wrong', 'danger')
         return redirect('home:post_create')
+
+class PostDetailView(View):
+    def get(self, request, pk):
+        product = Product.objects.filter(pk=pk).first()
+        return render(request, 'home/detail.html', {'product': product})
