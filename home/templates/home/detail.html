@@ -17,8 +17,10 @@
                         </ol>
                         <div class="carousel-inner">
                             <!-- Slide 1 -->
-                            <div class="item active">
+                            <div class="item active" >
+                                {% if product.image %}
                                 <img src="{{ product.image.url }}" class="img-responsive" alt=""  width="300"/>
+                                {% endif %}
                             </div>
 
                         </div>
@@ -34,6 +36,7 @@
                     <br>
                   </h2>
                     <small>create by <a href="javascript:void(0);">{{ product.user.full_name }}</a></small></p>
+                <small>email <a href="javascript:void(0);">{{ product.user.email }}</a></small></p>
 
                 <hr />
                 <h4 class="price-container">

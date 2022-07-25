@@ -28,12 +28,25 @@
 </head>
 <body>
 <!-- Navigation-->
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul>
+        <li>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </li>
+    </ul>
     <div class="container px-4 px-lg-5">
+
         <a class="navbar-brand  fs-3" href="{% url 'home:home' %}">JorVaJor</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <a class="navbar-brand" href="{% url 'home:home' %}">Home</a>
@@ -54,9 +67,12 @@
                                     Profile
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark">
-                                    <li><a class="dropdown-item" href="{% url 'home:my_post' request.user.pk %}">my posts</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'home:post_create' %}">create post</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'accounts:edit_profile'%}">edit profile</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'home:my_post' request.user.pk %}">my
+                                        posts</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'home:post_create' %}">create post</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">edit
+                                        profile</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -70,19 +86,24 @@
 
 
             </ul>
-            {% if request.user.is_authenticated %}
-                <a class="nav-link fw-bold text-black-50 " href="{% url 'accounts:user_logout' %}">Logout</a>
-            {% endif %}
-            <form class="d-flex">
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
-            </form>
+
+
         </div>
     </div>
+    <!-- Collapsible content -->
+    {% block search %}
+
+    {% endblock %}
+    {% if request.user.is_authenticated %}
+        <a class="nav-link fw-bold text-black-50 " href="{% url 'accounts:user_logout' %}">Logout</a>
+    {% endif %}
+
+
+    <!-- Collapsible content -->
+
+    <!-- Collapsible content -->
 </nav>
+
 <!-- Header-->
 {% block extra-headers %}
 {% endblock %}
