@@ -4,6 +4,7 @@ from home.views import HomeView, AboutView, PostCreateView, MyPostsView, PostDet
 app_name = 'home'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('category/<slug:category_slug>/', HomeView.as_view(), name='category_filter'),
     path('<int:pk>', MyPostsView.as_view(), name='my_post'),
     path('about/', AboutView.as_view(), name='about'),
     path('post/create/', PostCreateView.as_view(), name='post_create'),

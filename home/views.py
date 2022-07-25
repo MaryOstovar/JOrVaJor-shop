@@ -4,21 +4,26 @@ from django.utils.text import slugify
 from django.views import View
 from home.forms import PostCreateForm, SearchForm
 from django.contrib import messages
-from home.models import Product
+from home.models import Product, Category
 
 
 class HomeView(View):
     form_class = SearchForm
 
-    def get(self, request):
+    def get(self, request,  category_slug=None):
         form = self.form_class()
         try:
+            categories = Category.objects.all()
             products = Product.objects.all()
         except Product.DoesNotExist:
             raise 'error occurred'
+        if category_slug:
+            category = Category.objects.get(slug=category_slug)
+            products = products.filter(category=category)
+
         if request.GET.get('search'):
             products = Product.objects.filter(name__contains=request.GET['search'])
-        return render(request, 'home/home.html', {'form': form, 'products': products})
+        return render(request, 'home/home.html', {'form': form, 'products': products, 'category': categories})
 
 
 class MyPostsView(LoginRequiredMixin, View):
