@@ -5,6 +5,8 @@ from django.views import View
 from home.forms import PostCreateForm, SearchForm
 from django.contrib import messages
 from home.models import Product, Category
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 
 class HomeView(View):
@@ -12,18 +14,32 @@ class HomeView(View):
 
     def get(self, request,  category_slug=None):
         form = self.form_class()
+        default_page = 1
+        page = request.GET.get('page', default_page)
         try:
             categories = Category.objects.all()
             products = Product.objects.all()
         except Product.DoesNotExist:
             raise 'error occurred'
+        # Paginate items
+        items_per_page = 8
+        paginator = Paginator(products, items_per_page)
+        try:
+            items_page = paginator.page(page)
+        except PageNotAnInteger:
+            items_page = paginator.page(default_page)
+        except EmptyPage:
+            items_page = paginator.page(paginator.num_pages)
+
         if category_slug:
             category = Category.objects.get(slug=category_slug)
             products = products.filter(category=category)
 
         if request.GET.get('search'):
             products = Product.objects.filter(name__contains=request.GET['search'])
-        return render(request, 'home/home.html', {'form': form, 'products': products, 'category': categories})
+
+        return render(request, 'home/home.html', {'form': form, 'products': products,
+                                                  'category': categories, 'items_page': items_page})
 
 
 class MyPostsView(LoginRequiredMixin, View):
