@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from django.views import View
 from home.forms import PostCreateForm, SearchForm
@@ -8,19 +8,24 @@ from home.models import Product, Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-
 class HomeView(View):
     form_class = SearchForm
 
-    def get(self, request,  category_slug=None):
+    def get(self, request, category_slug=None):
         form = self.form_class()
         default_page = 1
         page = request.GET.get('page', default_page)
-        try:
-            categories = Category.objects.all()
-            products = Product.objects.all()
-        except Product.DoesNotExist:
-            raise 'error occurred'
+
+        categories = Category.objects.all()
+        products = Product.objects.all()
+
+        if category_slug:
+            category = Category.objects.get(slug=category_slug)
+            products = products.filter(category=category)
+
+        if request.GET.get('search'):
+            products = Product.objects.filter(name__contains=request.GET['search'])
+
         # Paginate items
         items_per_page = 8
         paginator = Paginator(products, items_per_page)
@@ -31,15 +36,8 @@ class HomeView(View):
         except EmptyPage:
             items_page = paginator.page(paginator.num_pages)
 
-        if category_slug:
-            category = Category.objects.get(slug=category_slug)
-            products = products.filter(category=category)
-
-        if request.GET.get('search'):
-            products = Product.objects.filter(name__contains=request.GET['search'])
-
         return render(request, 'home/home.html', {'form': form, 'products': products,
-                                                  'category': categories, 'items_page': items_page})
+                                              'categories': categories, 'items_page': items_page})
 
 
 class MyPostsView(LoginRequiredMixin, View):
@@ -67,6 +65,7 @@ class PostCreateView(LoginRequiredMixin, View):
             new_post.slug = slugify(cd['name'])
             new_post.user = request.user
             new_post.save()
+            form.save_m2m()
             messages.success(request, 'post create successfully', 'success')
             return redirect('home:home')
         messages.error(request, 'your data wrong', 'danger')
