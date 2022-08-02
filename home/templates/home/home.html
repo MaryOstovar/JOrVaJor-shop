@@ -3,29 +3,27 @@
 
 {% block extra-headers %}
 
-{#    <header class="bg-dark py-5">#}
-{#        <div class="container px-4 px-lg-5 my-5">#}
-{#            <div class="text-center text-white">#}
-{#                <h1 class="display-4 fw-bolder ">JorVaJOr</h1>#}
-{#                <p class="lead fw-normal text-white-50 mb-0">a shop selling second-hand goods or inexpensive#}
-{#                    antiques.</p>#}
-{#            </div>#}
-{#        </div>#}
-{#    </header>#}
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder ">JorVaJOr</h1>
+                <p class="lead fw-normal text-white-50 mb-0">a shop selling second-hand goods or inexpensive
+                    antiques.</p>
+            </div>
+        </div>
+    </header>
 <!-- Full Page Image Header with Vertically Centered Content -->
-     <link rel="stylesheet" href="{% static 'css/background_style.css' %}">
-<header class="masthead">
-  <div class="container h-100">
-    <div class="row h-100 align-items-center">
-      <div class="col-12 text-center">
-        <h1 class="fw-bold text-black display-1">Jor Va Jor</h1>
-        <p class="lead text-black display-6">a shop selling second-hand goods or inexpensive
-                 antiques</p>
-          <a href="{% url 'homa:home' %}" class="btn  btn-lg btn-outline-light fw-bold">Scroll For Starting</a>
-      </div>
-    </div>
-  </div>
-</header>
+{#     <link rel="stylesheet" href="{% static 'css/background_style.css' %}">#}
+{#<header class="masthead">#}
+{#  <div class="container h-100">#}
+{#    <div class="row h-100 align-items-center">#}
+{#      <div class="col-12 text-center">#}
+{#        <h1 class="fw-bold text-black display-1">Jor Va Jor</h1>#}
+{#        <p class="lead text-black display-6">a shop selling second-hand goods or antiques</p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</header>#}
 
 {% endblock %}
 {% block content %}
@@ -119,10 +117,9 @@
 
 
 {% block search %}
-    <form class="d-flex  " action="" method="get" role="search">
-
-        {{ form.search }}
-        <button class="btn btn-outline-light" placeholder="Search" aria-label="Search" type="submit">Search</button>
+    <form class="d-flex" action="" method="get" role="search">
+        {{ form.search}}
+        <button class="btn btn-outline-dark" placeholder="Search" aria-label="Search" type="submit">Search</button>
 
     </form><br/>
 {% endblock %}

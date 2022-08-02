@@ -1,6 +1,6 @@
 from django import forms
 
-from home.models import Product
+from home.models import Product, Comment
 
 
 class PostCreateForm(forms.ModelForm):
@@ -11,3 +11,21 @@ class PostCreateForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField()
+
+
+class CommentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('body',)
+        widgets = {
+           'body': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+
+class CommentReplyForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('body',)
+        widgets = {
+            'body': forms.TextInput(attrs={'class': 'form-control'})
+        }

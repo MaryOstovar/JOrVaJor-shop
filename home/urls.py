@@ -1,5 +1,6 @@
 from django.urls import path, re_path
-from home.views import HomeView, AboutView, PostCreateView, MyPostsView, PostDetailView, PostDeleteView, PostEditView
+from home.views import HomeView, AboutView, PostCreateView, MyPostsView, PostDetailView, PostDeleteView, PostEditView,\
+    ProductAddReplyView
 
 app_name = 'home'
 urlpatterns = [
@@ -11,5 +12,6 @@ urlpatterns = [
     path('post/detail/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
     path('post/delete/<int:pk>/', PostDeleteView.as_view(), name='post_delete'),
     path('post/edit/<int:pk>/', PostEditView.as_view(), name='post_edit'),
+    path('reply/<int:post_pk>/<int:comment_pk>/', ProductAddReplyView.as_view(), name='add_reply'),
 
 ]

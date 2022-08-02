@@ -2,65 +2,104 @@
 {% load static %}
 {% block content %}
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-<div class="container">
-    <!-- product -->
-    <div class="product-content product-wrap clearfix product-deatil">
-        <div class="row">
-            <div class="col-md-5 col-sm-12 col-xs-12">
-                <div class="product-image">
-                    <div id="myCarousel-2" class="carousel slide">
-                        <ol class="carousel-indicators">
-                            <li data-target="#myCarousel-2" data-slide-to="0" class=""></li>
-                            <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
-                            <li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <!-- Slide 1 -->
-                            <div class="item active" >
-                                {% if product.image %}
-                                <img src="{{ product.image.url }}" class="img-responsive" alt=""  width="300"/>
-                                {% endif %}
-                            </div>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <div class="container">
+        <!-- product -->
+        <div class="product-content product-wrap clearfix product-deatil">
+            <div class="row">
+                <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="product-image">
+                        <div id="myCarousel-2" class="carousel slide">
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel-2" data-slide-to="0" class=""></li>
+                                <li data-target="#myCarousel-2" data-slide-to="1" class="active"></li>
+                                <li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <!-- Slide 1 -->
+                                <div class="item active">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" class="img-responsive" alt="" width="300"/>
+                                    {% endif %}
+                                </div>
 
+                            </div>
+                            <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span
+                                    class="glyphicon glyphicon-chevron-left"></span> </a>
+                            <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span
+                                    class="glyphicon glyphicon-chevron-right"></span> </a>
                         </div>
-                        <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-                        <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
                     </div>
+                </div>
+
+                <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
+                    <h2 class="name">
+                        {{ product.name }}
+                        <br>
+                    </h2>
+                    <small>create by <a href="javascript:void(0);">{{ product.user.full_name }}</a></small></p>
+                    <small>email <a href="javascript:void(0);">{{ product.user.email }}</a></small></p>
+
+                    <hr/>
+                    <h4 class="price-container">
+                        price : {{ product.price }}$
+
+                    </h4>
+                    <hr/>
+                    <h4>
+                        {{ product.description }}
+                    </h4>
+                    <hr>
+                    <button type="button" class="btn btn-outline-primary fw-bold">
+                        <i class="bi bi-cart text-dark"></i> add to cart
+                    </button>
+
+
+                    <button class="btn btn-warning fw-bold bi-chat-right-text text-dark" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        comments
+                    </button>
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body bor">
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                {{ form.body }}
+                                <input type="submit" value="comment">
+
+                            </form>
+                            <hr>
+                            {% for comment in comments %}
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title" style="color: #0a53be">{{ comment.user }}</h6>
+                                        <p class="card-text">{{ comment.body }}</p>
+                                        {% if request.user.is_authenticated %}
+                                            <form action="{% url 'homa:add_reply' product.pk comment.pk %}" method="post">
+                                                {% csrf_token %}
+                                                {{ form.body }}
+                                                <input type="submit" value="reply">
+                                            </form>
+                                        {% endif %}
+                                        {% with replies=comment.rcomments.all %}
+                                            {% for reply in replies %}
+                                                <p class="bg-light p-3 m-2">{{ reply.user }}<br/> {{ reply.body }}</p>
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- end product -->
                 </div>
             </div>
 
-            <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
-                <h2 class="name">
-                    {{ product.name }}
-                    <br>
-                  </h2>
-                    <small>create by <a href="javascript:void(0);">{{ product.user.full_name }}</a></small></p>
-                <small>email <a href="javascript:void(0);">{{ product.user.email }}</a></small></p>
-
-                <hr />
-                <h4 class="price-container">
-                   price : {{ product.price }}$
-
-                </h4>
-                <hr />
-                <h4>
-                    {{ product.description }}
-                </h4>
-                <div class="description description-tabs">
+        </div>
 
 
-                    </div>
-                </div>
-
-
-    <!-- end product -->
-</div>
     </div>
-
-</div>
-
-
-
 
 {% endblock %}

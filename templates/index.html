@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
 
     <meta charset="utf-8"/>
@@ -30,9 +30,9 @@
 <body>
 <!-- Navigation-->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar  navbar-expand-lg  navbar-light bg-light">
 
-    <div class="container px-4 px-lg-5">
+    <div class="container d-flex px-lg-4">
 
         <a class="navbar-brand  fs-3" href="{% url 'home:home' %}">JorVaJor</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -65,12 +65,15 @@
                                     </li>
                                     <li><a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">edit
                                         profile</a></li>
-                                <li><a class="dropdown-item " href="{% url 'accounts:user_logout' %}">Logout</a></li>
+                                    <li><a class="dropdown-item " href="{% url 'accounts:user_logout' %}">Logout</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
+
                     </div>
-                 {% block category %}
+
+                    {% block category %}
 
                     {% endblock %}
 
@@ -84,19 +87,25 @@
             </ul>
 
 
+
+
         </div>
+
+
     </div>
-    <!-- Collapsible content -->
-    {% block search %}
+  <form >
+   <button class="btn btn-outline-dark me-2 pe-lg-3" type="submit">
+            <i class="bi-cart-fill me-1"></i>
+            Cart
+            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+        </button>
+    </form>
 
-    {% endblock %}
+   {% block search %}
 
-
-
-    <!-- Collapsible content -->
-
-    <!-- Collapsible content -->
+   {% endblock %}
 </nav>
+
 {% block extra-headers %}
 {% endblock %}
 
