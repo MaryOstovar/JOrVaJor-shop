@@ -113,7 +113,8 @@ class EditProfileView(LoginRequiredMixin, View):
             form.save()
             messages.success(request, 'your profile edit successfully', 'success')
             return redirect('homa:home')
-
+        messages.error(request, 'enter your information again', 'danger')
+        return redirect('accounts:edit_profile')
 
 
 

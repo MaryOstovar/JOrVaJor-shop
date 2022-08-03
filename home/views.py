@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from django.views import View
-from home.forms import PostCreateForm, SearchForm, CommentCreateForm, CommentReplyForm
+from home.forms import ProductCreateForm, SearchForm, CommentCreateForm, CommentReplyForm
 from django.contrib import messages
 from home.models import Product, Category, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -42,10 +42,10 @@ class HomeView(View):
                                                   'categories': categories, 'items_page': items_page})
 
 
-class MyPostsView(LoginRequiredMixin, View):
+class MyProductsView(LoginRequiredMixin, View):
     def get(self, request, pk):
         products = Product.objects.filter(user=request.user)
-        return render(request, 'home/my_posts.html', {'products': products})
+        return render(request, 'home/my-products.html', {'products': products})
 
 
 class AboutView(View):
@@ -53,28 +53,28 @@ class AboutView(View):
         return render(request, 'home/about.html')
 
 
-class PostCreateView(LoginRequiredMixin, View):
-    form_class = PostCreateForm
+class ProductCreateView(LoginRequiredMixin, View):
+    form_class = ProductCreateForm
 
     def get(self, request):
-        return render(request, 'home/post_create.html', {'form': self.form_class()})
+        return render(request, 'home/product-create.html', {'form': self.form_class()})
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
-            new_post = form.save(commit=False)
+            new_product = form.save(commit=False)
             cd = form.cleaned_data
-            new_post.slug = slugify(cd['name'])
-            new_post.user = request.user
-            new_post.save()
+            new_product.slug = slugify(cd['name'])
+            new_product.user = request.user
+            new_product.save()
             form.save_m2m()
             messages.success(request, 'post create successfully', 'success')
             return redirect('home:home')
         messages.error(request, 'your data wrong', 'danger')
-        return redirect('home:post_create')
+        return redirect('product-create')
 
 
-class PostDetailView(View):
+class ProductDetailView(View):
     form_class = CommentCreateForm
     reply_form_class = CommentReplyForm
 
@@ -97,8 +97,8 @@ class PostDetailView(View):
             new_comment.user = request.user
             new_comment.product = self.product_instance
             new_comment.save()
-            return redirect('home:post_detail', self.product_instance.pk)
-        return redirect('home:post_detail', self.product_instance.pk)
+            return redirect('product-detail', self.product_instance.pk)
+        return redirect('product-detail', self.product_instance.pk)
 
 
 class ProductAddReplyView(LoginRequiredMixin, View):
@@ -116,27 +116,27 @@ class ProductAddReplyView(LoginRequiredMixin, View):
             reply_comment.is_reply = True
             reply_comment.save()
             messages.success(request, 'you reply successfully', 'success')
-        return redirect('home:post_detail', product.pk)
+        return redirect('product-detail', product.pk)
 
 
-class PostDeleteView(LoginRequiredMixin, View):
+class ProductDeleteView(LoginRequiredMixin, View):
     def get(self, request, pk):
         product = Product.objects.filter(pk=pk).first()
         if request.user == product.user:
             product.delete()
             messages.success(request, 'product delete successfully', 'success')
-            return redirect('home:my_post', request.user.pk)
+            return redirect('home:my-products', request.user.pk)
         messages.error(request, 'your not allowed', 'danger')
         return redirect('home:home')
 
 
-class PostEditView(LoginRequiredMixin, View):
-    from_class = PostCreateForm
+class ProductEditView(LoginRequiredMixin, View):
+    from_class = ProductCreateForm
 
     def get(self, request, pk):
         product = Product.objects.get(pk=pk)
         form = self.from_class(instance=product)
-        return render(request, 'home/post_create.html', {'form': form})
+        return render(request, 'home/product-create.html', {'form': form})
 
     def post(self, request, pk):
         product = Product.objects.get(pk=pk)

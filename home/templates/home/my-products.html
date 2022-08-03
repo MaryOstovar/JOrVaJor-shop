@@ -23,11 +23,11 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
                                 <div class="btn-group " role="group" aria-label="Basic mixed styles example">
-                                    <a type="button" class="btn btn-danger" href="{% url 'homa:post_delete' product.pk %}">Delete</a>
+                                    <a type="button" class="btn btn-danger" href="{% url 'home:product-delete' product.pk %}">Delete</a>
                                     <a type="button" class="btn btn-primary"
-                                            href="{% url 'homa:post_detail' product.pk %}">Detail
+                                            href="{% url 'home:product-detail' product.pk %}">Detail
                                     </a>
-                                    <a type="button" class="btn btn-warning" href="{% url 'homa:post_edit' product.pk %}">Edit</a>
+                                    <a type="button" class="btn btn-warning" href="{% url 'home:product-edit' product.pk %}">Edit</a>
                                 </div>
 
                             </div>

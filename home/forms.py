@@ -3,7 +3,7 @@ from django import forms
 from home.models import Product, Comment
 
 
-class PostCreateForm(forms.ModelForm):
+class ProductCreateForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['category', 'name', 'description', 'price', 'image']
@@ -18,7 +18,7 @@ class CommentCreateForm(forms.ModelForm):
         model = Comment
         fields = ('body',)
         widgets = {
-           'body': forms.TextInput(attrs={'class': 'form-control'})
+            'body': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 
