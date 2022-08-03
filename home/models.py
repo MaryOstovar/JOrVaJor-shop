@@ -27,7 +27,7 @@ class Product(models.Model):
     category = models.ManyToManyField(Category, related_name='products')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(blank=True, upload_to='image/', default='image/download.png')
+    image = models.ImageField(blank=True, default='image/download.png')
     description = RichTextField()
     price = models.IntegerField()
     available = models.BooleanField(default=True)

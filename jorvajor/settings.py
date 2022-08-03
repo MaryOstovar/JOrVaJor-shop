@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
     'ckeditor',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
+# ARVAN CLOUD STORAGE
+DEFAULT_FILE_STORAGE = DEFAULT_FILE_STORAGE
+AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+AWS_S3_ENDPOINT_URL = AWS_S3_ENDPOINT_URL
+AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
+AWS_SERVICE_NAME = AWS_SERVICE_NAME
+AWS_S3_FILE_OVERWRITE = AWS_S3_FILE_OVERWRITE
+AWS_LOCAL_STORAGE = f'{BASE_DIR}/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

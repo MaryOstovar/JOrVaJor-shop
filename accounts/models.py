@@ -6,6 +6,10 @@ from accounts.manager import UserManager
 # Create your models here.
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """
+    custom user
+    verify by phone number
+    """
     email = models.EmailField(max_length=255, unique=True)
     phone_number = models.CharField(max_length=11, unique=True)
     full_name = models.CharField(max_length=100)
@@ -30,6 +34,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class OtpCode(models.Model):
+    """
+    store code for registration
+    """
     phone_number = models.CharField(max_length=11, unique=True)
     code = models.PositiveSmallIntegerField()
     created_time = models.DateTimeField(auto_now=True)
