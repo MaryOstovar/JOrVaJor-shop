@@ -34,6 +34,7 @@ class UserRegisterView(View):
             }
             messages.success(request, 'we send code to your phone number', 'success')
             return redirect('accounts:verify_code')
+        messages.error(request, 'enter data again', 'danger')
         return render(request, self.template_name, {'form': form})
 
 
@@ -63,6 +64,7 @@ class UserRegistrationCodeView(View):
                 return redirect('accounts:verify_code')
             messages.error(request, 'this code is expired ', 'danger')
             code_instance.delete()
+        messages.error(request, 'this code is wrong ', 'danger')
         return redirect('home:home')
 
 
