@@ -71,7 +71,7 @@ class ProductCreateView(LoginRequiredMixin, View):
             messages.success(request, 'post create successfully', 'success')
             return redirect('home:home')
         messages.error(request, 'your data wrong', 'danger')
-        return redirect('product-create')
+        return redirect('homa:product-create')
 
 
 class ProductDetailView(View):
@@ -97,8 +97,8 @@ class ProductDetailView(View):
             new_comment.user = request.user
             new_comment.product = self.product_instance
             new_comment.save()
-            return redirect('product-detail', self.product_instance.pk)
-        return redirect('product-detail', self.product_instance.pk)
+            return redirect('homa:product-detail', self.product_instance.pk)
+        return redirect('homa:product-detail', self.product_instance.pk)
 
 
 class ProductAddReplyView(LoginRequiredMixin, View):
@@ -116,7 +116,7 @@ class ProductAddReplyView(LoginRequiredMixin, View):
             reply_comment.is_reply = True
             reply_comment.save()
             messages.success(request, 'you reply successfully', 'success')
-        return redirect('product-detail', product.pk)
+        return redirect('homa:product-detail', product.pk)
 
 
 class ProductDeleteView(LoginRequiredMixin, View):

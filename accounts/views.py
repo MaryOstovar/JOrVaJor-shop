@@ -24,8 +24,9 @@ class UserRegisterView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             random_code = random.randint(1000, 9999)
-            send_otp_code(form.cleaned_data['phone'], random_code)
+            # send_otp_code(form.cleaned_data['phone'], random_code)
             OtpCode.objects.create(phone_number=form.cleaned_data['phone'], code=random_code)
+            print(random_code)
             request.session['user_registration_info'] = {
                 'phone_number': form.cleaned_data['phone'],
                 'full_name': form.cleaned_data['full_name'],
@@ -51,7 +52,7 @@ class UserRegistrationCodeView(View):
             user_session = request.session['user_registration_info']
             code_instance = OtpCode.objects.get(phone_number=user_session['phone_number'])
             if form.cleaned_data['code'] == code_instance.code:
-                if not code_instance.created_time.minute + 2 >= datetime.datetime.now().minute:
+                if not code_instance.created_time.minute + 2 <= datetime.datetime.now().minute:
                     User.objects.create_user(phone_number=user_session['phone_number'],
                                              email=user_session['email'],
                                              full_name=user_session['full_name'],
@@ -59,12 +60,13 @@ class UserRegistrationCodeView(View):
                     code_instance.delete()
                     messages.success(request, 'you register successfully', 'success')
                     return redirect('home:home')
+                else:
+                    messages.error(request, 'this code is expired ', 'danger')
+                    code_instance.delete()
             else:
                 messages.error(request, 'this code is wrong ', 'danger')
                 return redirect('accounts:verify_code')
-            messages.error(request, 'this code is expired ', 'danger')
-            code_instance.delete()
-        messages.error(request, 'this code is wrong ', 'danger')
+
         return redirect('home:home')
 
 
