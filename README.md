@@ -1,1 +1,1 @@
-#JorVaJor Online Shop
+JorVaJor Online Shop
